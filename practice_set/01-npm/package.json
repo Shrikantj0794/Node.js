@@ -1,0 +1,19 @@
+{
+  "name": "01-npm",
+  "version": "1.0.0",
+  "description": "npm or node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": ".index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Shrikantj0794/Node.js"
+  },
+  "keywords": [
+    "npm"
+  ],
+  "author": "shrikant jamale",
+  "license": "ISC"
+}
