@@ -1,16 +1,15 @@
 const express = require('express');
+const morgan = require('morgan');
 const server = express();
+const productRouter = require('./routes/product')
+const userRouter = require('./routes/user')
+
+//bodyParser
 server.use(express.json());
-const controllerProducts = require('./controller/product')
-
-
-server 
-  .post('/products', controllerProducts.CreateProduct)
-  .get('/products/:id', controllerProducts.ReadProduct)
-  .put('/products/:id', controllerProducts.ReplaceProduct)
-  .patch('/products/:id', controllerProducts.UpdateProduct)
-  .delete('/products/:id', controllerProducts.DeleteProduct);
-
+server.use(morgan('default'));
+server.use(express.static('public'));
+server.use('/products',productRouter.router);
+server.use('/users',userRouter.router);
 
 server.listen(8080, () => {
   console.log('server started');
