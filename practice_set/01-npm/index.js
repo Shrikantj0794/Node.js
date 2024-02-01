@@ -1,51 +1,72 @@
-// const fs = require('fs');
+const fs = require('fs');
 // const index = fs.readFileSync('index.html', 'utf-8');
-// const data = JSON.parse(fs.readFileSync('data.json', 'utf-8'));
-// const products = data.products;
+const data = JSON.parse(fs.readFileSync('data.json', 'utf-8'));
+const products = data.products;
 
 const express = require('express');
-const app = express();
-
-//middleware1
-
-// app.use((req, res, next)=>{
-//   console.log(req.method, req.id, req.hostname);
-//   next()
-// })
+const server = express();
+server.use(express.json());
 
 
-//middleware2
-const auth = (req, res, next)=>{
+// server.use((req, res, next) => {
 
-  if (req.query.password=='123'){
-    next()
-  }else{
-    res.sendStatus(401);
-  }
-}
+// const auth = (req, res, next) => {
+  // console.log(req.query);
 
-// app.use(auth);
+  // if (req.body.password == '123') {
+  //   next();
+  // } else {
+  //   res.sendStatus(401);
+  // }
+  // next()
+ 
+// };
 
-
-//API - Endpoint - 
-app.get('/',auth, (req, res) => {
-  // res.send('hello');
-  res.json({type: 'GET'})
+// API - Endpoint - Route
+server.get('/products', (req, res) => {
+  res.json(products)
+});
+server.post('/', (req, res) => {
+  res.json({ type: 'POST' });
+});
+server.put('/', (req, res) => {
+  res.json({ type: 'PUT' });
+});
+server.delete('/', (req, res) => {
+  res.json({ type: 'DELETE' });
+});
+server.patch('/', (req, res) => {
+  res.json({ type: 'PATCH' });
 });
 
-app.post('/',auth, (req,res)=>{
-  res.json({type: 'POST'})
-});
-app.put('/',auth, (req,res)=>{
-  res.json({type: 'PUT'})
-});
-app.delete('/', (req,res)=>{
-  res.json({type: 'DELETE'})
-});
-app.patch('/', (req,res)=>{
-  res.json({type: 'PATCH'})
-});
+// C R U D
 
-app.listen(8080, () => {
-  console.log(`Example app listening on port`)
+// Create
+server.post('/products', (req, res)=>{
+  console.log(req.body)
+  products.push(req.body)
+  res.json({ type: 'POST' })
 })
+// Read
+server.get('/products/:id', (req, res) => {
+  const id = +req.params.id;
+  const product = products.find(p=>p.id===id)
+  res.json(product);
+});
+// Update
+server.put('/products/:id', (req, res) => {
+  const id = +req.params.id;
+  const productIndex = products.findIndex(p=>p.id===id)
+  products.splice(productIndex,1,{...req.body, id:id})
+  res.json('data updated');
+});
+server.get('/demo', (req, res) => {
+  // res.sendStatus(404);
+  // res.json(products)
+  // res.status(201).send('<h1>hello</h1>')
+  // res.sendFile('/Users/abhishekrathore/Desktop/node-app/index.html')
+});
+
+server.listen(8080, () => {
+  console.log('server started');
+});
