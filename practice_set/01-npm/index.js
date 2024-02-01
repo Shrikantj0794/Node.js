@@ -4,16 +4,12 @@ server.use(express.json());
 const controllerProducts = require('./controller/product')
 
 
-// Create
-server.post('/products', controllerProducts.CreateProduct);
-// Read
-server.get('/products/:id', controllerProducts.ReadProduct);
-// Update
-server.put('/products/:id', controllerProducts.ReplaceProduct);
-//patch
-server.patch('/products/:id', controllerProducts.UpdateProduct);
-// Delete
-server.delete('/products/:id', controllerProducts.DeleteProduct);
+server 
+  .post('/products', controllerProducts.CreateProduct)
+  .get('/products/:id', controllerProducts.ReadProduct)
+  .put('/products/:id', controllerProducts.ReplaceProduct)
+  .patch('/products/:id', controllerProducts.UpdateProduct)
+  .delete('/products/:id', controllerProducts.DeleteProduct);
 
 
 server.listen(8080, () => {
