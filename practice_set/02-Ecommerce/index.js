@@ -6,19 +6,27 @@ const products = data.products;
 
 // creating server using express.js
 const server = express();
+server.use(express.json());
+
 
 //API, Endpoints
-server.get('/', (req,res)=>{
-    res.send('hello');
-    // No need to convert into string
-    // res.json(products);
-    // res.sendStatus(404)
+server.get('/products', (req,res)=>{
+    res.send(products);
+});
+server.get('/products/:id', (req,res)=>{
+    const id = +req.params.id
+    const product = products.find(p=>p.id===id)
+    res.send(product);
+});
+server.post('/products',(req,res)=>{
+    products.push(req.body)
+    res.json(req.body)
 })
 server.put('/',(req,res)=>{
-    res.json({type: 'PUT'})
-})
-server.post('/',(req,res)=>{
-    res.json({type: 'POST'})
+    const id = +req.params.id
+    const productIndex = products.findIndex(p=>p.id===id)
+    products.splice(productIndex,1,{...req.body, id:id})
+    res.send('successfully updated');
 })
 server.delete('/',(req,res)=>{
     res.json({type: 'DELETE'})
